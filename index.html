@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>F & O</title>
+    <title>The Valentine's Challenge</title>
     <style>
         body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; height: 100vh; width: 100vw; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; background-image: url('covers/hearts.jpg'); background-size: 100% 100%; background-position: center; background-repeat: no-repeat; cursor: crosshair; }
         body::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(247, 177, 177, 0.4) 0%, rgba(255, 255, 255, 0.6) 100%); z-index: 1; }
@@ -27,12 +27,6 @@
 
         .container { position: relative; z-index: 10; text-align: center; background: white; padding: 40px; border-radius: 30px; box-shadow: 0 15px 45px rgba(0,0,0,0.15); width: 90%; max-width: 550px; max-height: 85vh; border: 1px solid rgba(0,0,0,0.03); transition: all 0.3s ease; overflow-y: auto; }
         .container.book-mode { background: none; box-shadow: none; border: none; width: 100vw; max-width: none; overflow: visible; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-
-        /* TRANSITION ANIMATIONS FOR QUESTIONS */
-        .fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
-        .fade-out-down { animation: fadeOutDown 0.4s ease-in forwards; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeOutDown { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-30px); } }
 
         #main-text { font-size: 1.6rem; margin-bottom: 25px; color: #a42323; font-style: italic; font-weight: 700; line-height: 1.4; white-space: pre-wrap; }
         .meme-img { width: 100%; max-height: 250px; object-fit: contain; border-radius: 15px; margin-bottom: 20px; display: none; }
@@ -83,8 +77,8 @@
 
         .final-letter { padding: 30px; color: #a42323; line-height: 1.6; text-align: center; font-style: italic; animation: softGlow 3s ease-in-out infinite; }
         @keyframes softGlow { 0%, 100% { background-color: #fffcf0; } 50% { background-color: #fff5f5; box-shadow: inset 0 0 50px rgba(255, 182, 193, 0.2); } }
-        .final-letter p { font-size: 1.2rem; margin-bottom: 15px; }
-        .continue-text { position: absolute; bottom: 20px; right: 20px; font-size: 0.9rem; color: #777; font-family: 'Georgia', serif; }
+        .final-letter p { font-size: 1.15rem; margin-bottom: 12px; }
+        .continue-text { position: absolute; bottom: 20px; right: 20px; font-size: 0.9rem; color: #777; font-family: 'Georgia', serif; font-weight: bold; }
 
         .red-cover { background: #a42323 !important; color: #f7b1b1 !important; border: 1px solid #7a1a1a !important; padding: 0; }
         .cover-title { font-family: 'Georgia', serif; font-size: 2.2rem; text-align: center; border: 4px solid #f7b1b1; padding: 20px; text-transform: lowercase; }
@@ -128,13 +122,12 @@
         let currentStage = "proposal";
         let currentSongIndex = 0;
         let currentPage = 0;
-        let totalPages = 16; 
+        let totalPages = 18; // Increased for the final spread
         const music = document.getElementById('bg-music');
         const playBtn = document.getElementById('play-pause');
         const volSlider = document.getElementById('volume-control');
         const noteBox = document.getElementById('note');
 
-        // --- ANIMATION HELPER ---
         function transitionQuestion(callback) {
             noteBox.classList.add('fade-out-down');
             setTimeout(() => {
@@ -147,7 +140,6 @@
             }, 400);
         }
 
-        // CURSOR TRAIL
         document.addEventListener('mousemove', (e) => {
             if (Math.random() > 0.9) { 
                 const heart = document.createElement('div');
@@ -160,7 +152,6 @@
             }
         });
 
-        // FLOATING TEXT SPAWNER
         function startLoveTexts() {
             const phrases = ["i love you", "my princess", "my future wife", "mwah 💋"];
             setInterval(() => {
@@ -203,7 +194,6 @@
             }, 150); 
         }
 
-        // MUSIC CONTROLS
         volSlider.addEventListener('input', (e) => { music.volume = e.target.value; });
         function togglePlay() { if (music.paused) { music.play(); playBtn.innerText = "⏸"; } else { music.pause(); playBtn.innerText = "▶"; } }
         function updateSong() {
@@ -381,7 +371,6 @@
                     
                     const userMsg = document.getElementById('userMessage').value;
 
-                    // REPLACE THE URL BELOW WITH YOUR FORMSPREE URL
                     fetch("https://formspree.io/f/mdalndll", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -423,6 +412,7 @@
             container.classList.add('book-mode');
             let photoPages = '';
             let pIdx = 1;
+
             photoPages += `
                 <div class="page" id="p1" style="z-index: 50;">
                     <div class="page-front red-cover"><div class="cover-title">the album of memories</div></div>
@@ -433,6 +423,7 @@
                         </div>
                     </div>
                 </div>`;
+
             for (let i = 2; i <= 15; i++) {
                 let imgFront = pIdx++;
                 let imgBack = pIdx++;
@@ -446,6 +437,7 @@
                     </div>
                 </div>`;
             }
+
             photoPages += `
                 <div class="page" id="p16" style="z-index: 34;">
                     <div class="page-front">
@@ -461,10 +453,45 @@
                             <p>i love you my best adorable amazing angelic princess in this world</p>
                             <p class="pulse-text" style="font-weight: bold; font-size: 1.4rem; color: #a42323;">HAPPY VALENTINES DAY (🌟❤️💓🌹🌸)</p>
                             <p style="font-size: 1.5rem;">MMMWWWWWAAAAAAAHHHHHHHHH 💋</p>
-                            <div class="continue-text">to be continue...</div>
+                            <div class="continue-text">Flip for one last thing... ➡️</div>
                         </div>
                     </div>
                 </div>`;
+
+            // PAGE 17 - Flips to become the LEFT side of the open spread
+            photoPages += `
+                <div class="page" id="p17" style="z-index: 33;">
+                    <div class="page-front">
+                        <div class="final-letter" style="background:#fffcf0; height:100%; display:flex; align-items:center; justify-content:center;">
+                            <p style="font-size: 1.5rem;">A message for you...</p>
+                        </div>
+                    </div>
+                    <div class="page-back">
+                        <div class="final-letter" style="text-align: left; font-size: 0.95rem; padding: 25px; font-style: normal; height:100%;">
+                            <p style="font-weight: bold; color: #7a1a1a; margin-bottom: 10px; text-decoration: underline;">Edit: Feb 11th</p>
+                            <p>Alr baby look.. i know life sucks, its so bad and fucked up and sometimes you feel like you just want to stop doing everything and just sleep without doing anything because you are tired.</p>
+                            <p>Yea i know it, and i know it so much too. I had worse things that i dont want to tell you cuz its so bad, but look... whatever is happening with anyone... it will get better soon.</p>
+                            <p>Not sooo soon, but it will, trust me. Just keep going and dont give up on anything. I will support you with every move you are doing if it means its good for you and your future okay?</p>
+                        </div>
+                    </div>
+                </div>`;
+
+            // PAGE 18 - Sits behind Page 17. Its FRONT becomes the RIGHT side of the open spread.
+            photoPages += `
+                <div class="page" id="p18" style="z-index: 32;">
+                    <div class="page-front">
+                        <div class="final-letter" style="text-align: left; font-size: 0.95rem; padding: 25px; font-style: normal; height:100%;">
+                            <p>Just know that you need to keep going and keep trying and dont give up. I dont say to keep going without stopping; you can take some rests sometimes when you are tired, but choose them at the right time so no one can annoy you.</p>
+                            <p>About your parents talking bad about you, its not your fault that they are shit... just ignore it and focus on yourself and your future, because that's what really matters.</p>
+                            <p>I'm always here for you, no matter what. You're never alone in this. ❤️</p>
+                            <p style="text-align: center; margin-top: 30px; font-weight: bold; font-size: 1.4rem; color: #a42323;">I Love You Forever</p>
+                        </div>
+                    </div>
+                    <div class="page-back">
+                         <div style="background:#8a1d1d; height:100%; width:100%;"></div>
+                    </div>
+                </div>`;
+
             container.innerHTML = `
                 <div class="book-viewport">
                     <div class="book" id="book">
@@ -518,10 +545,9 @@
             const h = document.getElementById('hint');
             if(!h) return;
             if(currentPage === 0) h.innerText = "Swipe Left to Open ➡️";
-            else if(currentPage === totalPages) h.innerText = "Our Story ❤️";
+            else if(currentPage === totalPages) h.innerText = "The End ❤️";
             else h.innerText = "Swipe to Flip";
         }
     </script>
 </body>
-
 </html>
